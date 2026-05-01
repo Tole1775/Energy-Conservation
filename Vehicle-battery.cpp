@@ -1,36 +1,8 @@
-#define TARGET_CAR // Define this in your build system (Makefile or CMake)
-#include "AnnonVehicle.h"
-
-int main() {
-    AnnonCore::PowerState myCar = {0.15, true, false};
-    
-    // Automatically applies Car-specific logic
-    AnnonCore::applyConservation(myCar); 
-    
-    return 0;
-}
-
-int main() {
-    AnnonCore::PowerState myplane = {0.15, true, false};
-    
-    // Automatically applies Plane-specific logic
-    AnnonCore::applyConservation(myplane); 
-    
-    return 0;
-}
-
-int main() {
-    AnnonCore::PowerState myBoat = {0.15, true, false};
-    
-    // Automatically applies Boat-specific logic
-    AnnonCore::applyConservation(myBoat); 
-    
-    return 0;
-}
-
-
 #include <iostream>
 #include <cmath>
+
+#define TARGET_CAR // Define this in your build system (Makefile or CMake)
+#include "AnnonVehicle.h"
 
 enum class VehicleType { CAR, PLANE, BOAT };
 enum class PowerSource { FUEL, ELECTRIC };
@@ -52,7 +24,7 @@ public:
         double dragForce = 0.5 * s.airDensity * std::pow(s.velocity, 2) * s.dragCoeff;
         
         // Efficiency modifiers
-        double efficiencyFactor = (p == PowerSource.ELECTRIC) ? 0.90 : 0.35; 
+        double efficiencyFactor = (p == PowerSource::ELECTRIC) ? 0.90 : 0.35;
         
         // Medium-specific resistance logic
         switch (v) {
@@ -72,3 +44,24 @@ public:
         return dragForce / efficiencyFactor;
     }
 };
+
+int main() {
+    AnnonCore::PowerState myCar = {0.15, true, false};
+    // Automatically applies Car-specific logic
+    AnnonCore::applyConservation(myCar);
+
+    AnnonCore::PowerState myPlane = {0.15, true, false};
+    // Automatically applies Plane-specific logic
+    AnnonCore::applyConservation(myPlane);
+
+    AnnonCore::PowerState myBoat = {0.15, true, false};
+    // Automatically applies Boat-specific logic
+    AnnonCore::applyConservation(myBoat);
+
+    EnergyConserver ec;
+    PhysicsState state = {30.0, 1500.0, 0.3, 1.225};
+    double throttle = ec.calculateOptimalThrottle(VehicleType::CAR, PowerSource::ELECTRIC, state);
+    std::cout << "Optimal throttle: " << throttle << std::endl;
+
+    return 0;
+}

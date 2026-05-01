@@ -1,39 +1,11 @@
-#define TARGET_CAR // Define this in your build system (Makefile or CMake)
-#include "AnnonVehicle.h"
-
-int main() {
-    AnnonCore::PowerState myCar = {0.15, true, false};
-    
-    // Automatically applies Car-specific logic
-    AnnonCore::applyConservation(myCar); 
-    
-    return 0;
-}
-
-int main() {
-    AnnonCore::PowerState myplane = {0.15, true, false};
-    
-    // Automatically applies Plane-specific logic
-    AnnonCore::applyConservation(myplane); 
-    
-    return 0;
-}
-
-int main() {
-    AnnonCore::PowerState myBoat = {0.15, true, false};
-    
-    // Automatically applies Boat-specific logic
-    AnnonCore::applyConservation(myBoat); 
-    
-    return 0;
-}
-
-
 #include <iostream>
 #include <thread>
 #include <chrono>
 #include <mutex>
 #include <condition_variable>
+
+#define TARGET_CAR // Define this in your build system (Makefile or CMake)
+#include "AnnonVehicle.h"
 
 class EnergyManager {
 private:
@@ -69,3 +41,24 @@ public:
         }
     }
 };
+
+int main() {
+    AnnonCore::PowerState myCar = {0.15, true, false};
+    // Automatically applies Car-specific logic
+    AnnonCore::applyConservation(myCar);
+
+    AnnonCore::PowerState myPlane = {0.15, true, false};
+    // Automatically applies Plane-specific logic
+    AnnonCore::applyConservation(myPlane);
+
+    AnnonCore::PowerState myBoat = {0.15, true, false};
+    // Automatically applies Boat-specific logic
+    AnnonCore::applyConservation(myBoat);
+
+    EnergyManager manager;
+    manager.signalDataArrival();
+    manager.waitForSensorData();
+    std::cout << "[SYSTEM] Processing burst data... Energy optimized." << std::endl;
+
+    return 0;
+}
