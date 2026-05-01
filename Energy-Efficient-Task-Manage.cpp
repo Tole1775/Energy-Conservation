@@ -10,6 +10,24 @@ int main() {
     return 0;
 }
 
+int main() {
+    AnnonCore::PowerState myplane = {0.15, true, false};
+    
+    // Automatically applies Plane-specific logic
+    AnnonCore::applyConservation(myplane); 
+    
+    return 0;
+}
+
+int main() {
+    AnnonCore::PowerState myBoat = {0.15, true, false};
+    
+    // Automatically applies Boat-specific logic
+    AnnonCore::applyConservation(myBoat); 
+    
+    return 0;
+}
+
 
 #include <iostream>
 #include <thread>
