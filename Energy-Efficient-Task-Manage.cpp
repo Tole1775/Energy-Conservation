@@ -1,3 +1,16 @@
+#define TARGET_CAR // Define this in your build system (Makefile or CMake)
+#include "AnnonVehicle.h"
+
+int main() {
+    AnnonCore::PowerState myCar = {0.15, true, false};
+    
+    // Automatically applies Car-specific logic
+    AnnonCore::applyConservation(myCar); 
+    
+    return 0;
+}
+
+
 #include <iostream>
 #include <thread>
 #include <chrono>
